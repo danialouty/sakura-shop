@@ -1,0 +1,43 @@
+ <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAsbbnH_FS5DFBwqMBpi-3siaOlZHoxpcQ",
+            authDomain: "test-f273b.firebaseapp.com",
+            projectId: "test-f273b",
+            storageBucket: "test-f273b.appspot.com",
+            messagingSenderId: "907465757738",
+            appId: "1:907465757738:web:9552fa927aa64760165f53"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const DB = getDatabase(app);
+
+        //Here we have the set function to save the data in firebase.
+        document.getElementById("loginBtn").addEventListener('click', function (e) {
+            e.preventDefault();
+            set(ref(DB, 'user/' + document.getElementById("uname").value), {
+                Username: document.getElementById("uname").value,
+                Password: document.getElementById("pass").value
+            });
+        });
+        //Here we have the get function to get the data from firebase.
+        document.getElementById("getBtn").addEventListener('click', function (e) {
+            e.preventDefault();
+            const username = document.getElementById("search").value;
+            const dbref = ref(DB);
+            get(child(dbref, 'user/' + document.getElementById("search").value)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    // console.log(snapshot.val().Username);
+                    // alert(snapshot.val().Username);
+                    document.getElementById("searchResult").innerHTML = snapshot.val().Password;
+                }
+            });
+        });
+    </script>
